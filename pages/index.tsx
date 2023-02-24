@@ -184,7 +184,7 @@ const Home: NextPage = () => {
         </h2>
         <p
           className="mx-auto mt-6 max-w-xl text-base leading-normal text-slate-900 sm:mt-12 sm:text-lg lg:text-lg"
-          aria-label="Reading Passages"
+          aria-label="Lesson Planning"
         >
           <Balancer>
             Upgrade your lesson planning with our AI-powered generator. Say
@@ -216,7 +216,7 @@ const Home: NextPage = () => {
               placeholder={
                 "For example, the topics could be: Exploring the Human Body: An Introduction to Anatomy and Physiology, The American Revolution: Understanding Causes and Effects, The Wonderful World of Water: Understanding Properties and States of Matter, Discovering Diversity: Understanding Different Cultures and Traditions, Let's Write a Story: An Introduction to Creative Writing and Storytelling, or Making Music: An Introduction to Music Theory and Composition."
               }
-              aria-label="Enter a theme, subject matter, or content focus. (Leave blank to generate a random passage.)"
+              aria-label="Please input your desired topic or subject. If you leave the field blank, a random lesson will be generated."
             />
             <p className="mt-2 text-right text-sm text-gray-500">
               {topic.length}/200
@@ -296,11 +296,11 @@ const Home: NextPage = () => {
                     <div
                       className="relative transform cursor-pointer rounded-xl border bg-sky-200 p-4 shadow-md transition-all duration-300 ease-in-out hover:-translate-y-1 hover:bg-sky-100 hover:shadow-lg"
                       onClick={() => {
-                        const passage = `\nBy: Mark Anthony Llego \n\n${generatedTopics}`;
+                        const plan = `\nBy: Mark Anthony Llego \n\n${generatedTopics}`;
                         navigator.clipboard
-                          .writeText(passage)
+                          .writeText(plan)
                           .then(() => {
-                            toast("Generated Passage Copied!", {
+                            toast("Generated Lesson Plan Copied!", {
                               icon: "✂️",
                             });
                           })
@@ -374,10 +374,10 @@ const Home: NextPage = () => {
                       </p>
                       <p>
                         In addition to these guidelines, users are granted a
-                        creative license to use the generated reading passages
+                        creative license to use the generated lesson plans
                         in their own unique and creative ways. However, users
                         should always respect the original intent and meaning of
-                        the passages, and avoid using them in any way that could
+                        the lesson plan, and avoid using them in any way that could
                         be harmful, inappropriate, or unethical.
                       </p>
                     </div>

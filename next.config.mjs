@@ -5,7 +5,7 @@ const config = {
     return [
       {
         source: "/github",
-        destination: "https://github.com/llegomark/betterreadings/",
+        destination: "https://github.com/llegomark/betterlessons/",
         permanent: false,
       },
       {
