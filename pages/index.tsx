@@ -48,41 +48,32 @@ const Home: NextPage = () => {
     useState<LessonDurationType>("30-60 minutes");
   const [generatedTopics, setGeneratedTopics] = useState<string>("");
 
-  const topicPrompt =
-    "You may choose the topic of the lesson plan based on your expertise and educational goals.";
-
-  const assessmentPrompt = `Please include specific assessment methods, such as quizzes, tests, or class participation, and provide at least 10 sample questions with answers.`;
-
-  let lessonPlanPrompt = `Please create a ${lessonPlanType}, appropriate for ${gradelevel} students, that is ${lessonDuration} in duration. Please include ${
-    lessonPlanType === "Detailed Lesson Plan" ? "specific" : "general"
-  } learning objectives, a list of materials needed, and a basic description of teaching strategies and assessment methods. Please draw on your expertise in teaching experience in the subject area to create an effective and engaging lesson plan. ${assessmentPrompt}`;
-
-  if (lessonPlanType === "Detailed Lesson Plan") {
-    lessonPlanPrompt = `For a ${lessonPlanType} on ${topic}, please include the following:
-  
-    1. Specific learning objectives that are achievable and measurable.
-  
-    2. Teaching strategies that engage students in the learning process, such as interactive lectures, group work, or hands-on activities.
-  
-    3. Materials needed for the lesson, including any technology, books, or other resources that will be used.
-  
-    4. A detailed timeline for each activity, including estimated times for each part of the lesson.
-  
-    5. Assessment methods to evaluate student learning, such as quizzes, tests, or class participation. ${assessmentPrompt}
-  
-    Please draw on your expertise in teaching experience in the subject area to create an effective and engaging lesson plan.`;
+  let prompt: string;
+  if (topic.trim() === "") {
+    prompt = `${
+      lessonPlanType === "Detailed Lesson Plan"
+        ? "Please create a complete and"
+        : "Please create a"
+    } ${lessonPlanType}, appropriate for ${gradelevel} students, that is ${lessonDuration} in duration. Please include ${
+      lessonPlanType === "Detailed Lesson Plan" ? "specific" : "general"
+    } learning objectives that are achievable and measurable, a list of materials needed, and ${
+      lessonPlanType === "Detailed Lesson Plan"
+        ? "teaching strategies that engage students in the learning process, materials needed for the lesson, including any technology, books, or other resources that will be used, a detailed timeline for each activity, including estimated times for each part of the lesson, and assessment methods to evaluate student learning, such as quizzes, tests, or class participation. Please draw on your expertise in teaching experience in the subject area to create an effective and engaging lesson plan."
+        : "a basic description of teaching strategies and assessment methods. Please draw on your expertise in teaching experience in the subject area to create an effective and engaging lesson plan."
+    }`;
+  } else {
+    prompt = `${
+      lessonPlanType === "Detailed Lesson Plan"
+        ? "Please create a complete and"
+        : "Please create a"
+    } ${lessonPlanType} for a ${topic} lesson, appropriate for ${gradelevel} students, that is ${lessonDuration} in duration. Please include ${
+      lessonPlanType === "Detailed Lesson Plan" ? "specific" : "general"
+    } learning objectives that are achievable and measurable, ${
+      lessonPlanType === "Detailed Lesson Plan"
+        ? "teaching strategies that engage students in the learning process, materials needed for the lesson, including any technology, books, or other resources that will be used, a detailed timeline for each activity, including estimated times for each part of the lesson, and assessment methods to evaluate student learning, such as quizzes, tests, or class participation. Please draw on your expertise in teaching experience in the subject area to create an effective and engaging lesson plan."
+        : "a basic description of teaching strategies and assessment methods. Please draw on your expertise in teaching experience in the subject area to create an effective and engaging lesson plan."
+    }`;
   }
-
-  const prompt = `
-  ${lessonPlanPrompt}
-  
-  ${
-    topic.trim() === ""
-      ? `${topicPrompt} Please create a lesson plan`
-      : `Please create a ${lessonPlanType} for a ${topic} lesson`
-  } that is appropriate for ${gradelevel} students and is ${lessonDuration} in duration.
-  
-  `;
 
   // Define an asynchronous function that sends a POST request to an API route and displays the response
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
