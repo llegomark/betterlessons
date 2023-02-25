@@ -51,14 +51,14 @@ const Home: NextPage = () => {
   let prompt: string;
   if (topic.trim() === "") {
     if (lessonPlanType === "Detailed Lesson Plan") {
-      prompt = `Please create a complete and ${lessonPlanType}, appropriate for ${gradelevel}, that is ${lessonDuration} in duration. Please include specific learning objectives, teaching strategies, materials needed, a detailed timeline for each activity, and assessment methods. Please draw on your expertise in teaching experience in the subject area to create an effective and engaging lesson plan. You may choose the topic of the lesson plan based on your expertise and educational goals.`;
+      prompt = `Please create a complete and ${lessonPlanType}, appropriate for ${gradelevel} students, that is ${lessonDuration} in duration. Please include specific learning objectives, teaching strategies, materials needed, a detailed timeline for each activity, and assessment methods. Please draw on your expertise in teaching experience in the subject area to create an effective and engaging lesson plan. You may choose the topic of the lesson plan based on your expertise and educational goals.`;
     } else {
-      prompt = `Please create a ${lessonPlanType}, appropriate for ${gradelevel}, that is ${lessonDuration} in duration. Please include general learning objectives, a list of materials needed, and a basic description of teaching strategies and assessment methods. Please draw on your expertise in teaching experience in the subject area to create an effective and engaging lesson plan. You may choose the topic of the lesson plan based on your expertise and educational goals.`;
+      prompt = `Please create a ${lessonPlanType}, appropriate for ${gradelevel} students, that is ${lessonDuration} in duration. Please include general learning objectives, a list of materials needed, and a basic description of teaching strategies and assessment methods. Please draw on your expertise in teaching experience in the subject area to create an effective and engaging lesson plan. You may choose the topic of the lesson plan based on your expertise and educational goals.`;
     }
   } else if (lessonPlanType === "Detailed Lesson Plan") {
-    prompt = `Please create a complete and ${lessonPlanType} for a ${topic} lesson, appropriate for ${gradelevel}, that is ${lessonDuration} in duration. Please include specific learning objectives, teaching strategies, materials needed, a detailed timeline for each activity, and assessment methods. Please draw on your expertise in teaching experience in the subject area to create an effective and engaging lesson plan.`;
+    prompt = `Please create a complete and ${lessonPlanType} for a ${topic} lesson, appropriate for ${gradelevel} students, that is ${lessonDuration} in duration. Please include specific learning objectives, teaching strategies, materials needed, a detailed timeline for each activity, and assessment methods. Please draw on your expertise in teaching experience in the subject area to create an effective and engaging lesson plan.`;
   } else {
-    prompt = `Please create a ${lessonPlanType} for a ${topic} lesson, appropriate for ${gradelevel}, that is ${lessonDuration} in duration. Please include general learning objectives, a list of materials needed, and a basic description of teaching strategies and assessment methods. Please draw on your expertise in teaching experience in the subject area to create an effective and engaging lesson plan.`;
+    prompt = `Please create a ${lessonPlanType} for a ${topic} lesson, appropriate for ${gradelevel} students, that is ${lessonDuration} in duration. Please include general learning objectives, a list of materials needed, and a basic description of teaching strategies and assessment methods. Please draw on your expertise in teaching experience in the subject area to create an effective and engaging lesson plan.`;
   }
 
   // Define an asynchronous function that sends a POST request to an API route and displays the response
@@ -226,7 +226,7 @@ const Home: NextPage = () => {
                 2
               </span>
               <p className="ml-3 text-left text-base leading-normal text-slate-900 sm:text-lg lg:text-lg">
-                <Balancer>Please choose a grade level for the lesson.</Balancer>
+                <Balancer>Please choose a grade/college level for the lesson.</Balancer>
               </p>
             </div>
             <div className="mt-3 block">

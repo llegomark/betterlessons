@@ -20,7 +20,8 @@ export type GradelevelType =
   | "Grade 9"
   | "Grade 10"
   | "Grade 11"
-  | "Grade 12";
+  | "Grade 12"
+  | "College Level";
 
 // Define the props for the `DropDown` component
 interface DropDownProps {
@@ -46,6 +47,7 @@ export const DropDown: React.FC<DropDownProps> = ({
     "Grade 10",
     "Grade 11",
     "Grade 12",
+    "College Level",
   ];
   return (
     <Menu
