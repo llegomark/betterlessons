@@ -55,33 +55,17 @@ const Home: NextPage = () => {
     useState<BackgroundKnowledgeType>("Beginner");
   const [generatedTopics, setGeneratedTopics] = useState<string>("");
   // This variable is used to generate the prompt for the user
-  // The prompt varies depending on the user's input for 'topic', 'gradelevel', 'lessonPlanType', and 'lessonDuration'
-  let prompt: string;
-  if (topic.trim() === "") {
-    prompt = `${
-      lessonPlanType === "Detailed Lesson Plan"
-        ? "Please create a complete and"
-        : "Please create a"
-    } ${lessonPlanType}, appropriate for ${gradelevel} students, that is ${lessonDuration} in duration. The student's background knowledge is at a ${backgroundKnowledge} level. Please include ${
-      lessonPlanType === "Detailed Lesson Plan" ? "specific" : "general"
-    } learning objectives that are achievable and measurable, a list of materials needed, and ${
-      lessonPlanType === "Detailed Lesson Plan"
-        ? "teaching strategies that engage students in the learning process, materials needed for the lesson, including any technology, books, or other resources that will be used, a detailed timeline for each activity, including estimated times for each part of the lesson, and assessment methods to evaluate student learning, such as quizzes, tests, or class participation. Please draw on your expertise in teaching experience in the subject area to create an effective and engaging lesson plan."
-        : "a basic description of teaching strategies and assessment methods. Please draw on your expertise in teaching experience in the subject area to create an effective and engaging lesson plan."
-    }`;
-  } else {
-    prompt = `${
-      lessonPlanType === "Detailed Lesson Plan"
-        ? "Please create a complete and"
-        : "Please create a"
-    } ${lessonPlanType} for a ${topic} lesson, appropriate for ${gradelevel} students, that is ${lessonDuration} in duration. The student's background knowledge is at a ${backgroundKnowledge} level. Please include ${
-      lessonPlanType === "Detailed Lesson Plan" ? "specific" : "general"
-    } learning objectives that are achievable and measurable, ${
-      lessonPlanType === "Detailed Lesson Plan"
-        ? "teaching strategies that engage students in the learning process, materials needed for the lesson, including any technology, books, or other resources that will be used, a detailed timeline for each activity, including estimated times for each part of the lesson, and assessment methods to evaluate student learning, such as quizzes, tests, or class participation. Please draw on your expertise in teaching experience in the subject area to create an effective and engaging lesson plan."
-        : "a basic description of teaching strategies and assessment methods. Please draw on your expertise in teaching experience in the subject area to create an effective and engaging lesson plan."
-    }`;
-  }
+  // The prompt varies depending on the user's input for 'topic', 'gradelevel', 'lessonPlanType', 'backgroundKnowledge', and 'lessonDuration'
+  const topicPrefix = topic.trim() ? `for a ${topic} lesson, ` : "";
+  const objectives =
+    lessonPlanType === "Detailed Lesson Plan" ? "specific" : "general";
+  const materialsAndAssessment =
+    lessonPlanType === "Detailed Lesson Plan"
+      ? "teaching strategies that engage students in the learning process, materials needed for the lesson, including any technology, books, or other resources that will be used, a detailed timeline for each activity, including estimated times for each part of the lesson, and assessment methods to evaluate student learning, such as quizzes, tests, or class participation."
+      : "a basic description of teaching strategies and assessment methods.";
+  const prompt = `Please create ${
+    lessonPlanType === "Detailed Lesson Plan" ? "a complete and " : ""
+  }${lessonPlanType} ${topicPrefix}appropriate for ${gradelevel} students, that is ${lessonDuration} in duration. Always include the lesson title at the beginning. The student's background knowledge is at a ${backgroundKnowledge} level. Please include ${objectives} learning objectives that are achievable and measurable, ${materialsAndAssessment} Please draw on your expertise in teaching experience in the subject area to create an effective and engaging lesson plan.`;
 
   // This function is called when the user submits the form
   // It calls the 'generateTopic' function to send a POST request to the API and update the 'generatedTopics' state
@@ -383,6 +367,7 @@ const Home: NextPage = () => {
                         plans are not a substitute for your professional
                         judgment and experience as an educator.
                       </p>
+                      <h2 className="mb-2 font-bold">License:</h2>
                       <p className="mb-4">
                         The lesson plans are licensed under a{" "}
                         <a
