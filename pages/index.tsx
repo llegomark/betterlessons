@@ -40,7 +40,7 @@ const Home: NextPage = () => {
   const [, setResponse] = useState<ResponseType | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [topic, setTopic] = useState<string>("");
-  const [gradelevel, setGradelevel] = useState<GradelevelType>("Grade 12");
+  const [gradelevel, setGradelevel] = useState<GradelevelType>("Kindergarten");
   const [lessonPlanType, setLessonPlanType] = useState<LessonPlanType>(
     "Detailed Lesson Plan"
   );
@@ -48,18 +48,41 @@ const Home: NextPage = () => {
     useState<LessonDurationType>("30-60 minutes");
   const [generatedTopics, setGeneratedTopics] = useState<string>("");
 
-  let prompt: string;
-  if (topic.trim() === "") {
-    if (lessonPlanType === "Detailed Lesson Plan") {
-      prompt = `Please create a complete and ${lessonPlanType}, appropriate for ${gradelevel} students, that is ${lessonDuration} in duration. Please include specific learning objectives, teaching strategies, materials needed, a detailed timeline for each activity, and assessment methods. Please draw on your expertise in teaching experience in the subject area to create an effective and engaging lesson plan. You may choose the topic of the lesson plan based on your expertise and educational goals.`;
-    } else {
-      prompt = `Please create a ${lessonPlanType}, appropriate for ${gradelevel} students, that is ${lessonDuration} in duration. Please include general learning objectives, a list of materials needed, and a basic description of teaching strategies and assessment methods. Please draw on your expertise in teaching experience in the subject area to create an effective and engaging lesson plan. You may choose the topic of the lesson plan based on your expertise and educational goals.`;
-    }
-  } else if (lessonPlanType === "Detailed Lesson Plan") {
-    prompt = `Please create a complete and ${lessonPlanType} for a ${topic} lesson, appropriate for ${gradelevel} students, that is ${lessonDuration} in duration. Please include specific learning objectives, teaching strategies, materials needed, a detailed timeline for each activity, and assessment methods. Please draw on your expertise in teaching experience in the subject area to create an effective and engaging lesson plan.`;
-  } else {
-    prompt = `Please create a ${lessonPlanType} for a ${topic} lesson, appropriate for ${gradelevel} students, that is ${lessonDuration} in duration. Please include general learning objectives, a list of materials needed, and a basic description of teaching strategies and assessment methods. Please draw on your expertise in teaching experience in the subject area to create an effective and engaging lesson plan.`;
-  }
+  const topicPrompt =
+    "You may choose the topic of the lesson plan based on your expertise and educational goals.";
+
+  const assessmentPrompt =
+    lessonPlanType === "Detailed Lesson Plan"
+      ? `Please include specific assessment methods, such as quizzes, tests, or class participation, and provide at least 10 sample questions with answers.`
+      : `Please include assessment methods, such as quizzes, tests, or class participation, and provide at least 10 sample questions with answers in case quizzes or tests are used.`;
+
+  const prompt = `
+  Please create a ${
+    lessonPlanType === "Detailed Lesson Plan" ? "complete and " : ""
+  }${lessonPlanType} ${
+    topic.trim() === ""
+      ? `${topicPrompt} Please create a lesson plan `
+      : `for a ${topic} lesson `
+  }appropriate for ${gradelevel} students, that is ${lessonDuration} in duration. Please ${
+    lessonPlanType === "Detailed Lesson Plan"
+      ? "include specific learning objectives, teaching strategies, materials needed, a detailed timeline for each activity, and assessment methods"
+      : "include general learning objectives, a list of materials needed, and a basic description of teaching strategies and assessment methods"
+  }. 
+  
+  For a ${lessonPlanType} on ${topic}, please include the following:
+  
+  1. Specific learning objectives that are achievable and measurable (SMART)"
+  
+  2. Teaching strategies that engage students in the learning process, such as interactive lectures, group work, or hands-on activities.
+  
+  3. Materials needed for the lesson, including any technology, books, or other resources that will be used.
+  
+  4. A detailed timeline for each activity, including estimated times for each part of the lesson.
+  
+  5. Assessment methods to evaluate student learning, such as quizzes, tests, or class participation. ${assessmentPrompt}
+  
+  Please draw on your expertise in teaching experience in the subject area to create an effective and engaging lesson plan.
+  `;
 
   // Define an asynchronous function that sends a POST request to an API route and displays the response
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
@@ -226,7 +249,9 @@ const Home: NextPage = () => {
                 2
               </span>
               <p className="ml-3 text-left text-base leading-normal text-slate-900 sm:text-lg lg:text-lg">
-                <Balancer>Please choose a grade/college level for the lesson.</Balancer>
+                <Balancer>
+                  Please choose a grade/college level for the lesson.
+                </Balancer>
               </p>
             </div>
             <div className="mt-3 block">
@@ -374,11 +399,11 @@ const Home: NextPage = () => {
                       </p>
                       <p>
                         In addition to these guidelines, users are granted a
-                        creative license to use the generated lesson plans
-                        in their own unique and creative ways. However, users
+                        creative license to use the generated lesson plans in
+                        their own unique and creative ways. However, users
                         should always respect the original intent and meaning of
-                        the lesson plan, and avoid using them in any way that could
-                        be harmful, inappropriate, or unethical.
+                        the lesson plan, and avoid using them in any way that
+                        could be harmful, inappropriate, or unethical.
                       </p>
                     </div>
                   </div>
