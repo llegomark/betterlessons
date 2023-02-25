@@ -18,7 +18,11 @@ import Balancer from "react-wrap-balancer";
 import React from "react";
 import SocialIcon from "../components/SocialIcon";
 
-// This defines the types of data that the API response should have
+// This interface defines the types of data that the API response should have
+// The 'status' field indicates the HTTP status code of the response
+// The 'body' field is a string that contains the response body
+// The 'headers' field contains various headers from the response
+// The 'error' field is an optional string that contains an error message, in case the API call fails
 interface ResponseType {
   status: number;
   body: string;
@@ -47,7 +51,8 @@ const Home: NextPage = () => {
   const [lessonDuration, setLessonDuration] =
     useState<LessonDurationType>("30-60 minutes");
   const [generatedTopics, setGeneratedTopics] = useState<string>("");
-
+  // This variable is used to generate the prompt for the user
+  // The prompt varies depending on the user's input for 'topic', 'gradelevel', 'lessonPlanType', and 'lessonDuration'
   let prompt: string;
   if (topic.trim() === "") {
     prompt = `${
@@ -75,7 +80,9 @@ const Home: NextPage = () => {
     }`;
   }
 
-  // Define an asynchronous function that sends a POST request to an API route and displays the response
+  // This function is called when the user submits the form
+  // It calls the 'generateTopic' function to send a POST request to the API and update the 'generatedTopics' state
+  // If there is an error with the API call, it shows an alert to the user
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     generateTopic().catch((error) => {
@@ -84,7 +91,9 @@ const Home: NextPage = () => {
       alert("An error occurred. Please try again.");
     });
   };
-
+  // This function sends a POST request to the API with the provided prompt
+  // It reads the response body as a stream and updates the 'generatedTopics' state with each chunk of data
+  // If there is an error with the API call, it sets the 'response' state and shows an alert to the user
   const generateTopic = async (): Promise<void> => {
     setGeneratedTopics(""); // Clear any previous generated topics
     setLoading(true); // Set the loading state to true
@@ -129,9 +138,6 @@ const Home: NextPage = () => {
       return;
     }
 
-    // Set the ratelimitRemaining state to the value of the X-Ratelimit-Remaining header
-    // setRatelimitRemaining(response.headers.get("X-Ratelimit-Remaining") || "");
-
     // Read the response body as a stream and update the generated topics state with each chunk of data
     const data = response.body;
     if (!data) {
@@ -166,7 +172,8 @@ const Home: NextPage = () => {
     }
   };
 
-  // This line splits a string into an array of strings, with each element representing a line in the original string
+  // This variable is an array of strings that represents the generated topics
+  // It is created by splitting the 'generatedTopics' state by the newline character
   const lines: string[] = generatedTopics.split("\n");
 
   return (
@@ -293,7 +300,7 @@ const Home: NextPage = () => {
           </form>
         </div>
         <Toaster
-          position="top-center"
+          position="bottom-right"
           reverseOrder={false}
           toastOptions={{ duration: 2000 }}
         />
@@ -316,9 +323,7 @@ const Home: NextPage = () => {
                         navigator.clipboard
                           .writeText(plan)
                           .then(() => {
-                            toast("Generated Lesson Plan Copied!", {
-                              icon: "✂️",
-                            });
+                            toast.success("Generated Lesson Plan Copied", {});
                           })
                           .catch((error) => {
                             console.error(error);
