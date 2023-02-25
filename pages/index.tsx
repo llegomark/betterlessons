@@ -8,6 +8,7 @@ import { DropDown } from "../components/DropDown";
 import type {
   LessonPlanType,
   LessonDurationType,
+  BackgroundKnowledgeType,
 } from "../components/LessonPlanDropDown";
 import { LessonPlanDropDown } from "../components/LessonPlanDropDown";
 import Footer from "../components/Footer";
@@ -50,6 +51,8 @@ const Home: NextPage = () => {
   );
   const [lessonDuration, setLessonDuration] =
     useState<LessonDurationType>("30-60 minutes");
+  const [backgroundKnowledge, setBackgroundKnowledge] =
+    useState<BackgroundKnowledgeType>("Beginner");
   const [generatedTopics, setGeneratedTopics] = useState<string>("");
   // This variable is used to generate the prompt for the user
   // The prompt varies depending on the user's input for 'topic', 'gradelevel', 'lessonPlanType', and 'lessonDuration'
@@ -59,7 +62,7 @@ const Home: NextPage = () => {
       lessonPlanType === "Detailed Lesson Plan"
         ? "Please create a complete and"
         : "Please create a"
-    } ${lessonPlanType}, appropriate for ${gradelevel} students, that is ${lessonDuration} in duration. Please include ${
+    } ${lessonPlanType}, appropriate for ${gradelevel} students, that is ${lessonDuration} in duration. The student's background knowledge is at a ${backgroundKnowledge} level. Please include ${
       lessonPlanType === "Detailed Lesson Plan" ? "specific" : "general"
     } learning objectives that are achievable and measurable, a list of materials needed, and ${
       lessonPlanType === "Detailed Lesson Plan"
@@ -71,7 +74,7 @@ const Home: NextPage = () => {
       lessonPlanType === "Detailed Lesson Plan"
         ? "Please create a complete and"
         : "Please create a"
-    } ${lessonPlanType} for a ${topic} lesson, appropriate for ${gradelevel} students, that is ${lessonDuration} in duration. Please include ${
+    } ${lessonPlanType} for a ${topic} lesson, appropriate for ${gradelevel} students, that is ${lessonDuration} in duration. The student's background knowledge is at a ${backgroundKnowledge} level. Please include ${
       lessonPlanType === "Detailed Lesson Plan" ? "specific" : "general"
     } learning objectives that are achievable and measurable, ${
       lessonPlanType === "Detailed Lesson Plan"
@@ -264,8 +267,9 @@ const Home: NextPage = () => {
               </span>
               <p className="ml-3 text-left text-base leading-normal text-slate-900 sm:text-lg lg:text-lg">
                 <Balancer>
-                  Please choose the level of detail you prefer for your lesson
-                  and indicate the duration you would like it to be.
+                  Please indicate your preferred level of detail and duration
+                  for the lesson, and share your student background knowledge on
+                  the topic.
                 </Balancer>
               </p>
             </div>
@@ -278,6 +282,10 @@ const Home: NextPage = () => {
                 lessonDuration={lessonDuration}
                 setLessonDuration={(newLessonDuration) =>
                   setLessonDuration(newLessonDuration)
+                }
+                backgroundKnowledge={backgroundKnowledge}
+                setBackgroundKnowledge={(newBackgroundKnowledge) =>
+                  setBackgroundKnowledge(newBackgroundKnowledge)
                 }
               />
             </div>
