@@ -27,6 +27,10 @@ interface LessonPlanDropDownProps {
   ) => void;
 }
 
+const DROPDOWN_ID = "lesson-plan-dropdown";
+const LESSON_DURATION_DROPDOWN_ID = "lesson-duration-dropdown";
+const BACKGROUND_KNOWLEDGE_DROPDOWN_ID = "background-knowledge-dropdown";
+
 export const LessonPlanDropDown: React.FC<LessonPlanDropDownProps> = ({
   lessonPlanType,
   setLessonPlanType,
@@ -57,7 +61,7 @@ export const LessonPlanDropDown: React.FC<LessonPlanDropDownProps> = ({
         <Menu
           as="div"
           className="relative block w-full text-left"
-          key={`dropdown-${lessonPlanType}-${Math.random()}`}
+          key={`${DROPDOWN_ID}-${lessonPlanType}`}
         >
           <div>
             <Menu.Button className="inline-flex w-full items-center justify-between rounded-md border border-gray-300 bg-white px-4 py-2 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-black">
@@ -113,7 +117,7 @@ export const LessonPlanDropDown: React.FC<LessonPlanDropDownProps> = ({
         <Menu
           as="div"
           className="relative block w-full text-left"
-          key={`dropdown-${lessonDuration}-${Math.random()}`}
+          key={`${LESSON_DURATION_DROPDOWN_ID}-${lessonDuration}`}
         >
           <div>
             <Menu.Button className="inline-flex w-full items-center justify-between rounded-md border border-gray-300 bg-white px-4 py-2 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-black">
@@ -171,7 +175,7 @@ export const LessonPlanDropDown: React.FC<LessonPlanDropDownProps> = ({
         <Menu
           as="div"
           className="relative block w-full text-left"
-          key={`dropdown-${backgroundKnowledge}-${Math.random()}`}
+          key={`${BACKGROUND_KNOWLEDGE_DROPDOWN_ID}-${backgroundKnowledge}`}
         >
           <div>
             <Menu.Button className="inline-flex w-full items-center justify-between rounded-md border border-gray-300 bg-white px-4 py-2 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-black">
