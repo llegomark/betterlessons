@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import type { GradelevelType } from "../components/DropDown";
 import { DropDown } from "../components/DropDown";
@@ -54,6 +54,13 @@ const Home: NextPage = () => {
   const [backgroundKnowledge, setBackgroundKnowledge] =
     useState<BackgroundKnowledgeType>("Beginner");
   const [generatedTopics, setGeneratedTopics] = useState<string>("");
+  const lessonsRef = useRef<null | HTMLDivElement>(null);
+
+  const scrollToLessons = () => {
+    if (lessonsRef.current !== null) {
+      lessonsRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
   // This variable is used to generate the prompt for the user
   // The prompt varies depending on the user's input for 'topic', 'gradelevel', 'lessonPlanType', 'backgroundKnowledge', and 'lessonDuration'
   const topicPrefix = topic.trim() ? `for a ${topic} lesson, ` : "";
@@ -141,7 +148,7 @@ const Home: NextPage = () => {
       const chunkValue = decoder.decode(value);
       setGeneratedTopics((prev) => prev + chunkValue);
     }
-
+    scrollToLessons(); // Scroll to the generated lesson plan section
     setLoading(false); // Set the loading state to false once the response is fully received
   };
 
@@ -322,7 +329,10 @@ const Home: NextPage = () => {
                           });
                       }}
                     >
-                      <p className="text-start text-base leading-normal text-slate-900 sm:text-lg lg:text-lg">
+                      <p
+                        className="text-start text-base leading-normal text-slate-900 sm:text-lg lg:text-lg"
+                        ref={lessonsRef}
+                      >
                         {lines.map((line, index) => (
                           <React.Fragment key={index}>
                             {index === 0 ? (
